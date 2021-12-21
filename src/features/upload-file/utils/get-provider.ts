@@ -1,6 +1,7 @@
 import { LocalProvider } from '../providers/local-provider'
 import { GCPProvider } from '../providers/gcp-provider'
 import { AWSProvider } from '../providers/aws-provider'
+import { AzureBlobProvider } from '../providers/azure-blob'
 import { BaseProvider } from '../providers'
 import { UploadOptions, AvailableDefaultProviders } from '../types/upload-options.type'
 import { ERROR_MESSAGES } from '../constants'
@@ -37,6 +38,7 @@ export const getProvider = (options: UploadOptions['provider']): GetProviderRetu
     gcp: () => new GCPProvider(providerOptions),
     local: () => new LocalProvider(providerOptions),
     base: () => providerOptions as BaseProvider,
+    azureBlob: () =>  new AzureBlobProvider(providerOptions)
   }
   const provider = providerMap[providerName]()
   if (!provider) {

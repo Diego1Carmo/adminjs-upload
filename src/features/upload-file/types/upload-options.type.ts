@@ -2,6 +2,7 @@ import { BaseRecord } from 'adminjs'
 import { AWSOptions } from '../providers/aws-provider'
 import { BaseProvider } from '../providers/base-provider'
 import { LocalUploadOptions } from '../providers/local-provider'
+import { AzureBlobOptions } from '../providers/azure-blob'
 import { GCPOptions } from '../providers/gcp-provider'
 
 /**
@@ -20,7 +21,8 @@ export type UploadOptions = {
     /** GCP Credentials */
     gcp?: GCPOptions,
     /** Storage on the local drive */
-    local?: LocalUploadOptions
+    local?: LocalUploadOptions, 
+    azureBlob?: AzureBlobOptions
   } | BaseProvider,
   properties: {
     /**
