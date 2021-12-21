@@ -37,7 +37,7 @@ export class AzureBlobProvider extends BaseProvider {
 
     const blockBlobClient = this.containerName.getBlockBlobClient('teste.txt');
     const data = 'Hello test';
-    const uploadBlobResponse = await this.blobSvc.upload(data, data.length);
+    const uploadBlobResponse = await blockBlobClient.uploadFile(file.path);
     
     // await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
     // await fs.promises.rename(file.path, filePath);
