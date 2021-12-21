@@ -23,7 +23,7 @@ export class AzureBlobProvider extends BaseProvider {
   constructor(options: AzureBlobOptions) {
     super(options.container)
     this.blobSvc =  BlobServiceClient.fromConnectionString(options.connectionString);
-    this.containerName = this.blobSvc.getContainerClient('processo');
+    this.containerName = this.blobSvc.getContainerClient(options.container);
     // if (!existsSync(options.bucket)) {
     //   throw new Error(ERROR_MESSAGES.NO_DIRECTORY(options.bucket))
     // }
