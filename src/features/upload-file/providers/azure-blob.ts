@@ -2,7 +2,7 @@ import fs, { existsSync } from 'fs'
 import path from 'path'
 import { UploadedFile } from 'adminjs'
 import { ERROR_MESSAGES } from '../constants'
-const { BlobServiceClient } = require('@azure/storage-blob');
+
 import { BaseProvider } from './base-provider'
 
 /**
@@ -22,7 +22,10 @@ export class AzureBlobProvider extends BaseProvider {
 
   constructor(options: AzureBlobOptions) {
     super(options.container)
-    this.blobSvc =  BlobServiceClient.fromConnectionString(options.connectionString);
+
+    const { BlobServiceClient } = require('@azure/storage-blob');
+
+    this.blobSvc = BlobServiceClient.fromConnectionString(options.connectionString);
     this.containerName = this.blobSvc.getContainerClient(options.container);
     // if (!existsSync(options.bucket)) {
     //   throw new Error(ERROR_MESSAGES.NO_DIRECTORY(options.bucket))
@@ -30,17 +33,14 @@ export class AzureBlobProvider extends BaseProvider {
   }
 
   public async upload(file: UploadedFile, key: string): Promise<any> {
-    // const filePath = process.platform === 'win32'
-    //     ? this.path(key) : this.path(key).slice(1); // adjusting file path according to OS
-    console.log (file.path)
 
-
-    const blockBlobClient = this.containerName.getBlockBlobClient('teste.txt');
-    const data = 'Hello test';
+    const blockBlobClient = this.containerName.getBlockBlobClient(key);
     const uploadBlobResponse = await blockBlobClient.uploadFile(file.path);
-    
+
+    console.log (uploadBlobResponse);
     // await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
     // await fs.promises.rename(file.path, filePath);
+    return uploadBlobResponse;
   }
 
   public async delete(key: string, bucket: string): Promise<any> {

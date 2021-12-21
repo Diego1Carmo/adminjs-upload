@@ -6,11 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AzureBlobProvider = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
-const { BlobServiceClient } = require('@azure/storage-blob');
 const base_provider_1 = require("./base-provider");
 class AzureBlobProvider extends base_provider_1.BaseProvider {
     constructor(options) {
         super(options.container);
+        const { BlobServiceClient } = require('@azure/storage-blob');
         this.blobSvc = BlobServiceClient.fromConnectionString(options.connectionString);
         this.containerName = this.blobSvc.getContainerClient(options.container);
         // if (!existsSync(options.bucket)) {
@@ -18,14 +18,12 @@ class AzureBlobProvider extends base_provider_1.BaseProvider {
         // }
     }
     async upload(file, key) {
-        // const filePath = process.platform === 'win32'
-        //     ? this.path(key) : this.path(key).slice(1); // adjusting file path according to OS
-        console.log(file.path);
-        const blockBlobClient = this.containerName.getBlockBlobClient('teste.txt');
-        const data = 'Hello test';
+        const blockBlobClient = this.containerName.getBlockBlobClient(key);
         const uploadBlobResponse = await blockBlobClient.uploadFile(file.path);
+        console.log(uploadBlobResponse);
         // await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
         // await fs.promises.rename(file.path, filePath);
+        return uploadBlobResponse;
     }
     async delete(key, bucket) {
         await fs_1.default.promises.unlink(process.platform === 'win32'
