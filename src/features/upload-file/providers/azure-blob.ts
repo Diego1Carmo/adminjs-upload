@@ -44,8 +44,9 @@ export class AzureBlobProvider extends BaseProvider {
   }
 
   public async delete(key: string, bucket: string): Promise<any> {
-    await fs.promises.unlink(process.platform === 'win32'
-        ? this.path(key, bucket) : this.path(key, bucket).slice(1)); // adjusting file path according to OS
+    return Promise.resolve(true);
+    // await fs.promises.unlink(process.platform === 'win32'
+    //     ? this.path(key, bucket) : this.path(key, bucket).slice(1)); // adjusting file path according to OS
   }
 
   // eslint-disable-next-line class-methods-use-this

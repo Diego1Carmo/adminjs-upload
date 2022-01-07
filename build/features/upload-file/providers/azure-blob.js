@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AzureBlobProvider = void 0;
-const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const base_provider_1 = require("./base-provider");
 class AzureBlobProvider extends base_provider_1.BaseProvider {
@@ -26,8 +25,9 @@ class AzureBlobProvider extends base_provider_1.BaseProvider {
         return uploadBlobResponse;
     }
     async delete(key, bucket) {
-        await fs_1.default.promises.unlink(process.platform === 'win32'
-            ? this.path(key, bucket) : this.path(key, bucket).slice(1)); // adjusting file path according to OS
+        return Promise.resolve(true);
+        // await fs.promises.unlink(process.platform === 'win32'
+        //     ? this.path(key, bucket) : this.path(key, bucket).slice(1)); // adjusting file path according to OS
     }
     // eslint-disable-next-line class-methods-use-this
     path(key, bucket) {
